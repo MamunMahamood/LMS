@@ -698,11 +698,11 @@
             <div class="image">
 
 
-                <img src="{{$teacher->tphoto}}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{$student->sphoto}}" class="img-circle elevation-2" alt="User Image">
 
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{$teacher->user->name}}</a>
+                <a href="#" class="d-block">{{$student->user->name}}</a>
             </div>
         </div>
 
@@ -725,8 +725,8 @@
                with font-awesome or any other icon font library -->
 
                 <!-- menu-open -->
-                <li class="nav-item {{ request()->routeIs('profile.edit') || request()->routeIs('teacher-profile') || request()->routeIs('teacher.dashboard') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->routeIs('profile.edit') || request()->routeIs('teacher-profile') || request()->routeIs('teacher.dashboard')? 'active' : '' }}">
+                <li class="nav-item {{ request()->routeIs('profile.edit') || request()->routeIs('student-profile') || request()->routeIs('student.dashboard') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('profile.edit') || request()->routeIs('student-profile') || request()->routeIs('student.dashboard')? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -737,7 +737,7 @@
                     <ul class="nav nav-treeview">
 
                         <li class="nav-item">
-                            <a href="{{ route('teacher.dashboard') }}" class="nav-link {{ request()->routeIs('teacher.dashboard') ? 'active' : '' }}">
+                            <a href="{{ route('student.dashboard') }}" class="nav-link {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Dashboard</p>
                             </a>
@@ -749,7 +749,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('teacher-profile', ['id' => $teacher->id]) }}" class="nav-link {{ request()->routeIs('teacher-profile') ? 'active' : '' }}">
+                            <a href="{{ route('student-profile', ['id' => $student->id]) }}" class="nav-link {{ request()->routeIs('student-profile') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Teaching Profile</p>
                             </a>

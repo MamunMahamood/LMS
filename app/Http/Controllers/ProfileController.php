@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Admin;
+use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +21,11 @@ class ProfileController extends Controller
     {
         $teacher = Teacher::where('user_id', $request->user()->id)->first();
         $admin = Admin::where('user_id', $request->user()->id)->first();
+        $student = Student::where('user_id', $request->user()->id)->first();
         return view('profile.edit', [
             'teacher' => $teacher,
             'admin' => $admin,
+            'student' =>$student,
             'user' => $request->user(),
         ]);
     }

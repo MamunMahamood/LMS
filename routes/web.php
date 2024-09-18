@@ -7,8 +7,9 @@ use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StudentController;
 use App\Models\Admin;
-
+use App\Models\Student;
 use App\UserRole;
 
 Route::get('/', function () {
@@ -40,12 +41,12 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/teacher/dashboard', function () {
-    $teacher = Teacher::where('id', Auth::user()->id)->first();
+    $teacher = Teacher::where('user_id', Auth::user()->id)->first();
     return view('teacher.dashboard', ['teacher'=> $teacher]);
 })->middleware(['auth', 'verified'])->name('teacher.dashboard');
 
 Route::get('/student/dashboard', function () {
-    $student = Teacher::where('id', Auth::user()->id)->first();
+    $student = Student::where('user_id', Auth::user()->id)->first();
     return view('student.dashboard', ['student'=> $student]);
 })->middleware(['auth', 'verified'])->name('student.dashboard');
 
@@ -66,6 +67,11 @@ Route::get('/teacher/dashboard/tp/{id}', [TeacherController::class, 'teacher_pro
 Route::get('/admin/dashboard/tpc', [AdminController::class, 'create'])->name('admin-create')->middleware('auth');
 Route::post('admin-store', [AdminController::class, 'store'])->name('admin-store')->middleware('auth');
 Route::get('/admin/dashboard/tp/{id}', [AdminController::class, 'admin_profile'])->name('admin-profile')->middleware('auth');
+
+
+Route::get('/student/dashboard/tpc', [StudentController::class, 'create'])->name('student-create')->middleware('auth');
+Route::post('student-store', [StudentController::class, 'store'])->name('student-store')->middleware('auth');
+Route::get('/student/dashboard/tp/{id}', [StudentController::class, 'student_profile'])->name('student-profile')->middleware('auth');
 
 
 
