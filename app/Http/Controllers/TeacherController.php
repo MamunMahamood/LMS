@@ -11,6 +11,8 @@ use App\TeacherStatus;
 use App\Gender;
 use App\Religion;
 use App\Models\Teacher;
+use App\Models\Admin;
+use App\Models\Student;
 
 
 class TeacherController extends Controller
@@ -72,7 +74,18 @@ class TeacherController extends Controller
     public function teacher_profile($id)
     {
         $teacher = Teacher::findorfail($id);
+        $admin = Admin::where('user_id', Auth::user()->id)->first();
+        $student = Student::where('user_id', Auth::user()->id)->first();
+        if($teacher){
+            $user_common = $teacher;
+        }
+        elseif($student){
+            $user_common = $student;
+        }
+        else{
+            $user_common = $admin;
+        }
 
-        return view('teacher.tprofile', compact('teacher'));
+        return view('teacher.tprofile', compact('teacher', 'user_common'));
     }
 }

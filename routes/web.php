@@ -7,6 +7,7 @@ use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Models\Admin;
 use App\Models\Student;
@@ -41,18 +42,64 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/teacher/dashboard', function () {
-    $teacher = Teacher::where('user_id', Auth::user()->id)->first();
-    return view('teacher.dashboard', ['teacher'=> $teacher]);
+
+
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+        $student = Teacher::where('user_id', Auth::user()->id)->first();
+        $admin = Admin::where('user_id', Auth::user()->id)->first();
+
+
+        if($teacher){
+            $user_common = $teacher;
+        }
+        elseif($student){
+            $user_common = $student;
+        }
+        else{
+            $user_common = $admin;
+        }
+    
+    return view('teacher.dashboard', ['teacher'=> $teacher, 'user_common'=>$user_common]);
 })->middleware(['auth', 'verified'])->name('teacher.dashboard');
 
 Route::get('/student/dashboard', function () {
-    $student = Student::where('user_id', Auth::user()->id)->first();
-    return view('student.dashboard', ['student'=> $student]);
+
+
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+        $student = Teacher::where('user_id', Auth::user()->id)->first();
+        $admin = Admin::where('user_id', Auth::user()->id)->first();
+
+
+        if($teacher){
+            $user_common = $teacher;
+        }
+        elseif($student){
+            $user_common = $student;
+        }
+        else{
+            $user_common = $admin;
+        }
+    return view('student.dashboard', ['student'=> $student, 'user_common'=>$user_common]);
 })->middleware(['auth', 'verified'])->name('student.dashboard');
 
 Route::get('/admin/dashboard', function () {
-    $admin = Admin::where('user_id', Auth::user()->id)->first();
-    return view('admin.dashboard', ['admin'=> $admin]);
+
+
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+        $student = Teacher::where('user_id', Auth::user()->id)->first();
+        $admin = Admin::where('user_id', Auth::user()->id)->first();
+
+
+        if($teacher){
+            $user_common = $teacher;
+        }
+        elseif($student){
+            $user_common = $student;
+        }
+        else{
+            $user_common = $admin;
+        }
+    return view('admin.dashboard', ['admin'=> $admin, 'user_common'=>$user_common]);
 })->middleware(['auth', 'verified'])->name('admin.dashboard');
 
 
@@ -75,6 +122,13 @@ Route::get('/student/dashboard/tp/{id}', [StudentController::class, 'student_pro
 
 
 
+
+Route::get('admin/dashboard/courses', [CourseController::class, 'index'])->name('course-index')->middleware('auth');
+Route::get('/admin/dashboard/cc', [CourseController::class, 'course_create'])->name('course-create')->middleware('auth');
+
+
+
+Route::get('/courses/filter', [CourseController::class, 'filter'])->name('courses.filter');
 
 
 
