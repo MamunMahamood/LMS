@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\UserRole;
+
 
 class RegisteredUserController extends Controller
 {
@@ -72,6 +74,13 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // return redirect(route('dashboard', absolute: false));
+        if ($user->role === UserRole::Teacher->value) {
+            return redirect()->route('teacher.dashboard');
+        } elseif ($user->role === UserRole::Student->value) {
+            return redirect()->route('student.dashboard');
+        } elseif ($user->role === UserRole::Admin->value) {
+            return redirect()->route('admin.dashboard');
+        }
     }
 }

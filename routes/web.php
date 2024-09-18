@@ -3,7 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\AdminController;
+use App\Models\Admin;
 
 use App\UserRole;
 
@@ -18,6 +22,8 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     $user = Auth::user();
+
+    
     
     if ($user->role === UserRole::Teacher->value) {
         return redirect()->route('teacher.dashboard');
@@ -34,19 +40,35 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/teacher/dashboard', function () {
-    return view('teacher.dashboard');
+    $teacher = Teacher::where('id', Auth::user()->id)->first();
+    return view('teacher.dashboard', ['teacher'=> $teacher]);
 })->middleware(['auth', 'verified'])->name('teacher.dashboard');
 
 Route::get('/student/dashboard', function () {
-    return view('student.dashboard');
+    $student = Teacher::where('id', Auth::user()->id)->first();
+    return view('student.dashboard', ['student'=> $student]);
 })->middleware(['auth', 'verified'])->name('student.dashboard');
 
 Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+    $admin = Admin::where('user_id', Auth::user()->id)->first();
+    return view('admin.dashboard', ['admin'=> $admin]);
 })->middleware(['auth', 'verified'])->name('admin.dashboard');
 
 
 Route::get('/home', [MainController::class, 'home'])->name('home')->middleware('auth');
+
+Route::get('/teacher/dashboard/tpc', [TeacherController::class, 'create'])->name('teacher-create')->middleware('auth');
+Route::post('teacher-store', [TeacherController::class, 'store'])->name('teacher-store')->middleware('auth');
+Route::get('/teacher/dashboard/tp/{id}', [TeacherController::class, 'teacher_profile'])->name('teacher-profile')->middleware('auth');
+
+
+
+Route::get('/admin/dashboard/tpc', [AdminController::class, 'create'])->name('admin-create')->middleware('auth');
+Route::post('admin-store', [AdminController::class, 'store'])->name('admin-store')->middleware('auth');
+Route::get('/admin/dashboard/tp/{id}', [AdminController::class, 'admin_profile'])->name('admin-profile')->middleware('auth');
+
+
+
 
 
 
