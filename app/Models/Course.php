@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use TheJano\LaravelFilterable\Traits\HasFilterableTrait;
+use App\Filters\Filterable\CourseFilterable;
 
 class Course extends Model
 {
     use HasFactory;
+    use HasFilterableTrait;
 
 
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function filterableClass()
+    {
+        return CourseFilterable::class;
     }
 }

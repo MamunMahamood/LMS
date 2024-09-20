@@ -125,10 +125,23 @@ Route::get('/student/dashboard/tp/{id}', [StudentController::class, 'student_pro
 
 Route::get('admin/dashboard/courses', [CourseController::class, 'index'])->name('course-index')->middleware('auth');
 Route::get('/admin/dashboard/cc', [CourseController::class, 'course_create'])->name('course-create')->middleware('auth');
+Route::get('/admin/dashboard/courses/{id}', [CourseController::class, 'course_show'])->name('course-show')->middleware('auth');
 
 
 
-Route::get('/courses/filter', [CourseController::class, 'filter'])->name('courses.filter');
+Route::get('search-filter', [CourseController::class, 'filter'])->name('courses.filter');
+
+
+
+
+
+
+Route::get('/tabs/tab1', [CourseController::class, 'tab1'])->name('tabs.tab1');
+Route::get('/tabs/tab2', [CourseController::class, 'tab2'])->name('tabs.tab2');
+Route::get('/tabs/tab3', [CourseController::class, 'tab3'])->name('tabs.tab3');
+Route::get('/tabs/tab4', [CourseController::class, 'tab4'])->name('tabs.tab4');
+
+
 
 
 

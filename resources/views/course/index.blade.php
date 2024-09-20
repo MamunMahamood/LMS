@@ -1,7 +1,3 @@
-
-
-
-
 <!-- <div class="container mt-4">
     <div class="row">
         @foreach($courses as $course)
@@ -65,70 +61,56 @@
 
                 <section class="content mx-3">
                     <div>
-                        <form id="filterForm" class="mb-3">
+                        <form method="GET" action="{{ route('course-index') }}">
                             <div class="form-row">
-                                <div class="col">
-                                    <input type="text" name="course_name" class="form-control" placeholder="Course Name">
+                                <div class="col-3">
+                                    <input type="text" name="course_name" id="course_name" class="form-control" placeholder="Course Name" value="{{ request('course_name') }}">
                                 </div>
-                                <div class="col">
-                                    <input type="text" name="cid" class="form-control" placeholder="Course ID">
+                                <div class="col-3">
+                                    <input type="text" name="cid" id="cid" class="form-control" placeholder="Course ID" value="{{ request('cid') }}">
                                 </div>
-                                <div class="col">
-                                    <input type="text" name="session" class="form-control" placeholder="Session">
+                                <div class="col-3">
+                                    <input type="text" name="session" id="session" class="form-control" placeholder="Session" value="{{ request('session') }}">
                                 </div>
+                                <div class="col-1">
+                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                </div>
+                                <div class="col-1">
+                                    <a href="{{route('course-index')}}" class="btn btn-primary">Reset</a>
+                                </div>
+
                             </div>
                         </form>
 
 
                     </div>
-                    <div class="row">
+                    <div class="row mt-4">
                         <div class="col-sm-12">
-                            <!-- <div class="row">
-                                @foreach($courses as $course)
-                                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                                    <div class="card h-100 d-flex flex-column">
-                                        {{-- Course Image --}}
-                                        <img src="{{ $course->cphoto }}" class="card-img-top" alt="{{ $course->course_name }}">
 
-                                        <div class="card-body">
+
+                            <div class="row">
+                                @foreach($courses as $course)
+                                <div class="col-lg-2 col-md-3 col-sm-4 mb-4">
+                                    <div class="card" style="width: 100%; height: 350px;"> <!-- Fixed height for the card -->
+                                        <img src="{{ $course->cphoto }}" class="card-img-top" alt="{{ $course->course_name }}" style="height: 150px; object-fit: cover;"> <!-- Fixed height for the image -->
+
+                                        <div class="card-body d-flex flex-column">
                                             <h5 class="card-title">{{ $course->course_name }}</h5>
                                             <p class="card-text">{{ $course->cid }}</p>
                                             <p class="card-text">Session: {{ $course->session }}</p>
-                                            <a href="" class="btn btn-primary mt-auto w-100">View Course</a>
+                                            <a href="{{route('course-show',['id' => $course->id])}}" class="btn btn-primary mt-auto">View Course</a> <!-- Ensures the button stays at the bottom -->
                                         </div>
                                     </div>
                                 </div>
 
-                                {{-- Close the row and start a new one after every 4 cards --}}
-                                @if($loop->iteration % 4 == 0)
+
+                                @if($loop->iteration % 6 == 0)
                             </div>
                             <div class="row">
                                 @endif
                                 @endforeach
-                            </div> -->
-                            <div id="coursesList">
-                                <div class="row">
-                                    @foreach($courses as $course)
-                                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                                        <div class="card h-100 d-flex flex-column">
-                                            <img src="{{ $course->cphoto }}" class="card-img-top" alt="{{ $course->course_name }}">
-
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $course->course_name }}</h5>
-                                                <p class="card-text">{{ $course->cid }}</p>
-                                                <p class="card-text">Session: {{ $course->session }}</p>
-                                                <a href="" class="btn btn-primary mt-auto w-100">View Course</a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    @if($loop->iteration % 4 == 0)
-                                </div>
-                                <div class="row">
-                                    @endif
-                                    @endforeach
-                                </div>
                             </div>
+
 
                         </div>
                         <!-- <div class="col-sm-4">
@@ -176,26 +158,10 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 <script>
-   $(document).ready(function() {
-    $('#filterForm input').on('input', function() {
-        // Auto-submit form when any input field changes
-        $.ajax({
-            url: "{{ route('courses.filter') }}",  // The route to filter courses
-            method: 'GET',
-            data: $('#filterForm').serialize(),  // Send the form data
-            success: function(response) {
-                $('#coursesList').html(response);  // Update the courses list with filtered results
-            },
-            error: function(xhr) {
-                console.error('Error:', xhr.responseText);
-            }
-        });
-    });
-});
-
+   
 </script>
 
 

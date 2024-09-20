@@ -6,17 +6,23 @@
     </a>
 
     @php
-    if($user_common->tphoto){
-    $photo = $user_common->tphoto;
-    }
-    elseif($user_common->sphoto){
-
-    $photo = $user_common->sphoto;
-
-    }
-    else{
-    $photo = $user_common->aphoto;
-
+    if($user_common) {
+        if($user_common->tphoto) {
+            $photo = $user_common->tphoto;
+        }
+        elseif($user_common->sphoto) {
+            $photo = $user_common->sphoto;
+        }
+        elseif($user_common->aphoto) {
+            $photo = $user_common->aphoto;
+        }
+        else {
+            // Set default photo using the asset function
+            $photo = asset('assets/img/dphoto.png');
+        }
+    } else {
+        // If $user_common is null, set the default photo
+        $photo = asset('assets/img/dphoto.png');
     }
 
     $user = Auth::user();
@@ -31,7 +37,7 @@
                 <img src="{{$photo}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{$user_common->user->name}}</a>
+                <a href="#" class="d-block">{{Auth::user()->name}}</a>
             </div>
         </div>
 
@@ -45,7 +51,8 @@
                with font-awesome or any other icon font library -->
 
 
-                @if ($user->role === App\UserRole::Teacher->value && $teacher != null)
+                @if ($user->role === App\UserRole::Teacher->value)
+   
                 <li class="nav-item {{ request()->routeIs('profile.edit') || request()->routeIs('teacher-profile') || request()->routeIs('teacher.dashboard') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('profile.edit') || request()->routeIs('teacher-profile') || request()->routeIs('teacher.dashboard')? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -69,12 +76,23 @@
                                 <p>User Profile</p>
                             </a>
                         </li>
+                        @if($teacher != null)
                         <li class="nav-item">
                             <a href="{{ route('teacher-profile', ['id' => $teacher->id]) }}" class="nav-link {{ request()->routeIs('teacher-profile') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Teaching Profile</p>
+                                <p>Teacher Profile</p>
                             </a>
                         </li>
+
+                        @else
+                        <li class="nav-item">
+                            <a href="{{ route('teacher-create')}}" class="nav-link {{ request()->routeIs('teacher-profile') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Teacher Profile</p>
+                            </a>
+                        </li>
+
+                        @endif
 
                     </ul>
                 </li>
@@ -135,7 +153,7 @@
                 </li> -->
 
 
-                @else
+                @elseif($user->role === App\UserRole::Admin->value && $admin != null)
                 <li class="nav-item {{ request()->routeIs('profile.edit') || request()->routeIs('admin-profile') || request()->routeIs('admin.dashboard') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('profile.edit') || request()->routeIs('admin-profile') || request()->routeIs('admin.dashboard')? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -168,6 +186,12 @@
 
                     </ul>
                 </li>
+
+
+                @else
+
+
+               
 
 
 

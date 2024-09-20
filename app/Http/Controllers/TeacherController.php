@@ -19,8 +19,11 @@ class TeacherController extends Controller
 {
     public function create()
     {
-
-        return view('teacher.create');
+        $user_common= null;
+        $teacher=null;
+        $admin=null;
+        $student=null;
+        return view('teacher.create', compact('user_common', 'teacher', 'admin', 'student'));
     }
 
 
