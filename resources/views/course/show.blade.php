@@ -36,37 +36,100 @@
           </div>
           <hr> <!-- Horizontal line added below Dashboard and breadcrumb -->
 
-          <div>
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" href="#tab1" data-url="{{ route('tabs.tab1') }}">Create Task</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#tab2" data-url="{{ route('tabs.tab2') }}">Take Attendance</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#tab3" data-url="{{ route('tabs.tab3') }}">Create Quiz</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#tab4" data-url="{{ route('tabs.tab4') }}">Marks Distribution</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#tab4" data-url="{{ route('tabs.tab4') }}">Course Curriculam</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#tab4" data-url="{{ route('tabs.tab4') }}">Activity</a>
-              </li>
-            </ul>
 
 
+
+          <div class="row">
+            <div class="col-sm-6 align-self-stretch">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h5><strong>Create Quiz</strong></h5>
+
+                  <p>Create Task for Students</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-question"></i>
+              </div>
+                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-sm-6 align-self-stretch">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h5><strong>Take Attendance</strong></h5>
+
+                  <p>Create Attendance for Students</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-book"></i>
+              </div>
+                <a href="{{route('course-attendance')}}" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
           </div>
 
+          <div class="row">
+            <div class="col-sm-6 align-self-stretch">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h5><strong>Course Code</strong></h5>
 
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="tab1">Loading...</div>
-            <div class="tab-pane fade" id="tab2">Loading...</div>
-            <div class="tab-pane fade" id="tab3">Loading...</div>
-            <div class="tab-pane fade" id="tab4">Loading...</div>
+                  <p>{{$course->course_code}}</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-book"></i>
+              </div>
+                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-sm-6 align-self-stretch">
+              <!-- small box -->
+              <div class="small-box bg-primary">
+                <div class="inner">
+                  <h5><strong>Take Assignment</strong></h5>
+
+                  <p>Assignments for Students</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-address-book"></i>
+              </div>
+                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6 align-self-stretch">
+              <!-- small box -->
+              <div class="small-box bg-secondary">
+                <div class="inner">
+                  <h5><strong>Course Curriculam</strong></h5>
+
+                  <p>Set the Course Syllabus and mark distribution</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-calculator"></i>
+              </div>
+                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <div class="col-sm-6 align-self-stretch">
+              <!-- small box -->
+              <div class="small-box bg-danger">
+                <div class="inner">
+                  <h5><strong>Activity</strong></h5>
+
+                  <p>Course's Info, Upddates and Notices</p>
+                </div>
+                <div class="icon">
+                <i class="fa fa-tasks"></i>
+              </div>
+                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -91,35 +154,10 @@
 
 
 <script>
-  $(document).ready(function() {
-    // Load content for the default active tab (Tab 1)
-    var activeTab = $('.nav-tabs .active');
-    var activeTabUrl = activeTab.data('url');
-    $.get(activeTabUrl, function(data) {
-      $('#tab1').html(data);
-    });
 
-    // Handle tab click events
-    $('.nav-tabs a').on('click', function(event) {
-      event.preventDefault();
-
-      // Get the target tab and its content URL
-      var target = $(this).attr('href');
-      var url = $(this).data('url');
-
-      // Fetch content via AJAX and update the tab content
-      $.get(url, function(data) {
-        $(target).html(data);
-      });
-
-      // Change active tab
-      $('.nav-tabs a').removeClass('active');
-      $(this).addClass('active');
-      $('.tab-pane').removeClass('show active');
-      $(target).addClass('show active');
-    });
-  });
 </script>
+
+
 
 
 @endsection

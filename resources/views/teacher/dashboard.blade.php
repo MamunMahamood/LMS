@@ -20,7 +20,7 @@
                                     <div class="dropdown-menu dropdown-menu-right">
 
                                         <!-- <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a> -->
-                                        
+
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             Log Out
                                         </a>
@@ -34,6 +34,100 @@
                         </div><!-- /.col -->
                     </div>
                     <hr> <!-- Horizontal line added below Dashboard and breadcrumb -->
+
+
+                    <div class="row">
+                        <div class="col-sm-6 align-self-stretch">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h5><strong>Create Quiz</strong></h5>
+
+                                    <p>Create Task for Students</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-question"></i>
+                                </div>
+                                <a href="{{route('quiz-create-pre')}}" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 align-self-stretch">
+                            <!-- small box -->
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h5><strong>Take Attendance</strong></h5>
+
+                                    <p>Create Attendance for Students</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-book"></i>
+                                </div>
+                                <a href="{{route('course-attendance')}}" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 align-self-stretch">
+                            <!-- small box -->
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h5><strong>Hello, Teacher {{Auth::User()->name}} !</strong></h5>
+                                    <p class="teacher-redate"></p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-book"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 align-self-stretch">
+                            <!-- small box -->
+                            <div class="small-box bg-primary">
+                                <div class="inner">
+                                    <h5><strong>Take Assignment</strong></h5>
+
+                                    <p>Assignments for Students</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-address-book"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 align-self-stretch">
+                            <!-- small box -->
+                            <div class="small-box bg-secondary">
+                                <div class="inner">
+                                    <h5><strong>Course Curriculam</strong></h5>
+
+                                    <p>Set the Course Syllabus and mark distribution</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-calculator"></i>
+                                </div>
+                                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 align-self-stretch">
+                            <!-- small box -->
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h5><strong>Activity</strong></h5>
+
+                                    <p>Course's Info, Upddates and Notices</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-tasks"></i>
+                                </div>
+                                <a href="{{route('teacher-activity-pre')}}" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <script>
@@ -64,21 +158,10 @@
                     setInterval(updateDateTime, 1000);
                 </script>
 
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row mx-2">
-                            <div class="col-sm-6">
-                                <div class="alert alert-success" role="alert">
-                                    <h4 class="alert-heading">Hello, Teacher {{Auth::User()->name}} !</h4>
-                                    Today is <h5 class="teacher-redate"></h5>
-                                   
-                                </div>
 
-                            </div>
 
-                        </div>
-                    </div><!-- /.container-fluid -->
-                </section>
+
+                
 
             </div>
 

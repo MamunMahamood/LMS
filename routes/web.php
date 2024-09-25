@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\StudentController;
 use App\Models\Admin;
 use App\Models\Student;
@@ -45,41 +46,26 @@ Route::get('/teacher/dashboard', function () {
 
 
         $teacher = Teacher::where('user_id', Auth::user()->id)->first();
-        $student = Teacher::where('user_id', Auth::user()->id)->first();
-        $admin = Admin::where('user_id', Auth::user()->id)->first();
+        $user_common = $teacher;
+        
 
 
-        if($teacher){
-            $user_common = $teacher;
-        }
-        elseif($student){
-            $user_common = $student;
-        }
-        else{
-            $user_common = $admin;
-        }
-    
     return view('teacher.dashboard', ['teacher'=> $teacher, 'user_common'=>$user_common]);
 })->middleware(['auth', 'verified'])->name('teacher.dashboard');
 
 Route::get('/student/dashboard', function () {
 
 
-        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
-        $student = Teacher::where('user_id', Auth::user()->id)->first();
-        $admin = Admin::where('user_id', Auth::user()->id)->first();
+       
+   
+    $student = Student::where('user_id', Auth::user()->id)->first();
+    
 
-
-        if($teacher){
-            $user_common = $teacher;
-        }
-        elseif($student){
-            $user_common = $student;
-        }
-        else{
-            $user_common = $admin;
-        }
-    return view('student.dashboard', ['student'=> $student, 'user_common'=>$user_common]);
+    $user_common = $student;
+    
+    return view('student.dashboard', ['student'=> $student,
+            
+            'user_common'=>$user_common]);
 })->middleware(['auth', 'verified'])->name('student.dashboard');
 
 Route::get('/admin/dashboard', function () {
@@ -119,13 +105,23 @@ Route::get('/admin/dashboard/tp/{id}', [AdminController::class, 'admin_profile']
 Route::get('/student/dashboard/tpc', [StudentController::class, 'create'])->name('student-create')->middleware('auth');
 Route::post('student-store', [StudentController::class, 'store'])->name('student-store')->middleware('auth');
 Route::get('/student/dashboard/tp/{id}', [StudentController::class, 'student_profile'])->name('student-profile')->middleware('auth');
-
+Route::post('/student/dashboard/cec', [StudentController::class, 'student_store'])->name('student-store')->middleware('auth');
 
 
 
 Route::get('admin/dashboard/courses', [CourseController::class, 'index'])->name('course-index')->middleware('auth');
 Route::get('/admin/dashboard/cc', [CourseController::class, 'course_create'])->name('course-create')->middleware('auth');
 Route::get('/admin/dashboard/courses/{id}', [CourseController::class, 'course_show'])->name('course-show')->middleware('auth');
+Route::get('/student/dashboard/courses/{id}', [CourseController::class, 'student_course_show'])->name('student-course-show')->middleware('auth');
+Route::get('/student/dashboard/courses/{id}/quizzes', [StudentController::class, 'student_course_quizzes'])->name('student-course-quizzes')->middleware('auth');
+Route::get('/student/dashboard/quizzes/{id}', [StudentController::class, 'attend_quiz'])->name('attend-quiz')->middleware('auth');
+
+Route::get('/teacher/dashboard/quizzes/new/{id}', [QuizController::class, 'quiz_create'])->name('quiz-create')->middleware('auth');
+Route::get('/teacher/dashboard/quizzes/pre', [QuizController::class, 'quiz_create_pre'])->name('quiz-create-pre')->middleware('auth');
+Route::post('/teacher/dashboard/quizzes/pre', [QuizController::class, 'quiz_create_pre_store'])->name('quiz-create-pre-store')->middleware('auth');
+Route::post('/teacher/dashboard/quizzes/new', [QuizController::class, 'quiz_store'])->name('quiz-store')->middleware('auth');
+Route::get('/teacher/dashboard/quizzes', [QuizController::class, 'quiz_index'])->name('quiz-index')->middleware('auth');
+
 
 
 
@@ -136,10 +132,53 @@ Route::get('search-filter', [CourseController::class, 'filter'])->name('courses.
 
 
 
-Route::get('/tabs/tab1', [CourseController::class, 'tab1'])->name('tabs.tab1');
-Route::get('/tabs/tab2', [CourseController::class, 'tab2'])->name('tabs.tab2');
-Route::get('/tabs/tab3', [CourseController::class, 'tab3'])->name('tabs.tab3');
-Route::get('/tabs/tab4', [CourseController::class, 'tab4'])->name('tabs.tab4');
+
+
+
+
+
+
+Route::get('/admin/dashboard/course/attendance', [CourseController::class, 'attendance'])->name('course-attendance');
+Route::get('/student/dashboard/course/attendance/{id}', [CourseController::class, 'student_attendances'])->name('student-course-attendance');
+Route::post('/admin/dashboard/course/attendance-create', [CourseController::class, 'attendance_create'])->name('course-attendance-create');
+Route::post('admin/dashboard/course/student-attendance/{id}', [CourseController::class, 'student_attendance'])->name('student-attendance');
+Route::get('/admin/dashboard/course/attendance/see', [CourseController::class, 'see_attendance'])->name('teacher-see-attendance');
+Route::post('/admin/dashboard/course/attendance/see-attendance', [CourseController::class, 'see_attendance_create'])->name('see-attendance-create');
+Route::get('/admin/dashboard/course/attendance/see-attendance/{id}/{lecture}', [CourseController::class, 'lecture_attendance'])->name('lecture-attendance');
+
+
+
+
+Route::get('student/dashboard/courses', [StudentController::class, 'student_course_index'])->name('student-course-index')->middleware('auth');
+Route::get('/student/dashboard/ce', [StudentController::class, 'course_enroll'])->name('student-course-enroll')->middleware('auth');
+Route::post('/student/dashboard/cec', [StudentController::class, 'course_enroll_store'])->name('student-course-enroll-create')->middleware('auth');
+
+
+
+
+
+
+
+
+
+Route::get('/teacher/dashboard/activity/pre/{id}', [TeacherController::class, 'teacher_activity'])->name('teacher-activity')->middleware('auth');
+Route::get('/teacher/dashboard/activity/pre', [TeacherController::class, 'teacher_activity_pre'])->name('teacher-activity-pre')->middleware('auth');
+Route::post('/teacher/dashboard/activity/pre/pos', [TeacherController::class, 'teacher_activity_pos'])->name('teacher-activity-pos')->middleware('auth');
+Route::post('/teacher/dashboard/activity/pre/post', [TeacherController::class, 'teacher_post'])->name('teacher-post')->middleware('auth');
+Route::post('/comment', [TeacherController::class, 'teacher_post_comment'])->name('teacher-post-comment')->middleware('auth');
+
+
+
+
+
+
+
+
+Route::get('/student/dashboard/activity/pre/{id}', [StudentController::class, 'student_activity'])->name('student-activity')->middleware('auth');
+
+
+
+
 
 
 

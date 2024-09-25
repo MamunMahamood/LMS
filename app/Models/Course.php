@@ -22,4 +22,44 @@ class Course extends Model
     {
         return CourseFilterable::class;
     }
+
+
+
+    public function students()
+{
+    return $this->belongsToMany(Student::class)
+                ->withPivot('attendance')
+                ->withPivot('lecture')
+                ->withPivot('id')
+                ->withTimestamps();;
+}
+
+
+public function courseStudents()
+{
+    return $this->belongsToMany(Student::class, 'course_user_enrollment')
+                ->withPivot('id')
+                ->withTimestamps();
+}
+
+public function userPosts()
+{
+    return $this->belongsToMany(User::class, 'course_user_post')
+                ->withPivot('post')
+                ->withPivot('id')
+                ->withTimestamps();
+}
+
+
+
+
+public function quizzes()
+{
+    return $this->hasMany(Quiz::class);
+                
+}
+
+
+
+
 }
