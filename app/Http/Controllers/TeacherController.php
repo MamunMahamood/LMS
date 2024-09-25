@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -13,16 +14,18 @@ use App\Religion;
 use App\Models\Teacher;
 use App\Models\Admin;
 use App\Models\Student;
-
+use App\Models\Course;
+use App\Models\Postcomment;
+use App\Models\User;
 
 class TeacherController extends Controller
 {
     public function create()
     {
-        $user_common= null;
-        $teacher=null;
-        $admin=null;
-        $student=null;
+        $user_common = null;
+        $teacher = null;
+        $admin = null;
+        $student = null;
         return view('teacher.create', compact('user_common', 'teacher', 'admin', 'student'));
     }
 
@@ -52,7 +55,7 @@ class TeacherController extends Controller
         ]);
 
 
-        
+
 
 
 
@@ -68,7 +71,7 @@ class TeacherController extends Controller
             'location' => $request->location,
             'skill' => $request->skill,
             'research_interest' => $request->research_interest,
-            
+
         ]);
 
         return redirect(route('teacher.dashboard'));
@@ -77,18 +80,77 @@ class TeacherController extends Controller
     public function teacher_profile($id)
     {
         $teacher = Teacher::findorfail($id);
-        $admin = Admin::where('user_id', Auth::user()->id)->first();
-        $student = Student::where('user_id', Auth::user()->id)->first();
-        if($teacher){
-            $user_common = $teacher;
-        }
-        elseif($student){
-            $user_common = $student;
-        }
-        else{
-            $user_common = $admin;
-        }
+        $user_common = $teacher;
 
         return view('teacher.tprofile', compact('teacher', 'user_common'));
+    }
+
+
+
+
+    public function teacher_activity($id)
+    {
+        
+        $user_common = Teacher::where('user_id', Auth::user()->id)->first();
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+        $course = Course::findorfail($id);
+        $posts = $course->userPosts()->get();
+        $comments = Postcomment::all();
+        $users_for_comment = User::all();
+        return view('teacher.activity', compact('teacher', 'course', 'posts', 'comments','users_for_comment'));
+    }
+
+    public function teacher_activity_pre()
+    {
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+        $user_common = $teacher;
+       
+        return view('teacher.activity_pre', compact('user_common', 'teacher'));
+    }
+
+
+    public function teacher_activity_pos(Request $request)
+    {
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+        $user_common = $teacher;
+
+
+
+        $course = Course::where('cid', $request->course_id)
+            ->where('session', $request->session)
+            ->first();
+
+
+            
+
+
+            
+        return redirect(route('teacher-activity', $course));
+    }
+
+
+
+    public function teacher_post(Request $request){
+        $course = Course::findorfail($request->course_id);
+
+        $course->userPosts()->attach($request->user_id, ['post'=> $request->post]);
+
+        
+        return redirect()->back()->with('success', 'Job created successfully!');
+    }
+
+
+
+    public function teacher_post_comment(Request $request){
+
+        
+
+        $comment = Postcomment::create([
+            'post_id' => $request->post_id,
+            'comment' => $request->comment,
+            'user_id' => $request->user_id,
+        ]);
+
+        return redirect()->back()->with('success', 'Job created successfully!');
     }
 }

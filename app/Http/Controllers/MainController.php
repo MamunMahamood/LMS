@@ -26,4 +26,12 @@ class MainController extends Controller
         }
         return view('index', compact('teacher', 'student', 'admin', 'user_common'));
     }
+
+
+
+
+
+    public function modal(){
+        return view('modal');
+    }
 }

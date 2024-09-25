@@ -43,6 +43,18 @@ class RegisteredUserController extends Controller
         //     $request->admin_code == ['required', 'string', 'in:lms123']; // Replace 'your_admin_code' with the actual code
         // }
 
+
+
+        $file = '';
+
+        if ($request->hasFile('photo')) {
+            $filename = time() . '.' . $request->photo->extension();
+            // Move the uploaded file to the public/assets/img directory
+            $request->photo->move(public_path('/assets/img'), $filename);
+            // Store the relative file path
+            $file = '/assets/img/' . $filename;
+        }
+
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
@@ -68,6 +80,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,  // Add this line
+            'photo'=> $file,
         ]);
 
         event(new Registered($user));

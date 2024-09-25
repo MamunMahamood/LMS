@@ -27,7 +27,7 @@
                 <p class="login-box-msg">Register</p>
 
                 <!-- Laravel Blade Registration Form -->
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Name -->
@@ -73,6 +73,20 @@
                         </div>
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>
+
+                    <div class="input-group mb-3">
+                        <input type="file" id="photo" name="photo" class="form-control" placeholder="Add Photo" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-camera"></span>
+                            </div>
+                        </div>
+                        <!-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> -->
+                    </div>
+
+
+
+                    
 
 
 

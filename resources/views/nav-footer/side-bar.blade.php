@@ -6,24 +6,7 @@
     </a>
 
     @php
-    if($user_common) {
-        if($user_common->tphoto) {
-            $photo = $user_common->tphoto;
-        }
-        elseif($user_common->sphoto) {
-            $photo = $user_common->sphoto;
-        }
-        elseif($user_common->aphoto) {
-            $photo = $user_common->aphoto;
-        }
-        else {
-            // Set default photo using the asset function
-            $photo = asset('assets/img/dphoto.png');
-        }
-    } else {
-        // If $user_common is null, set the default photo
-        $photo = asset('assets/img/dphoto.png');
-    }
+ 
 
     $user = Auth::user();
 
@@ -34,10 +17,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{$photo}}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{$user->photo}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{Auth::user()->name}}</a>
+                <a href="#" class="d-block">{{$user->name}}</a>
             </div>
         </div>
 
@@ -107,7 +90,7 @@
                     </a>
                 </li> -->
 
-                @elseif ($user->role === App\UserRole::Student->value && $student != null)
+                @elseif ($user->role === App\UserRole::Student->value)
                 <li class="nav-item {{ request()->routeIs('profile.edit') || request()->routeIs('student-profile') || request()->routeIs('student.dashboard') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('profile.edit') || request()->routeIs('student-profile') || request()->routeIs('student.dashboard')? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -131,12 +114,23 @@
                                 <p>User Profile</p>
                             </a>
                         </li>
+                        @if($student != null)
                         <li class="nav-item">
                             <a href="{{ route('student-profile', ['id' => $student->id]) }}" class="nav-link {{ request()->routeIs('student-profile') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Teaching Profile</p>
+                                <p>Teacher Profile</p>
                             </a>
                         </li>
+
+                        @else
+                        <li class="nav-item">
+                            <a href="{{ route('student-create')}}" class="nav-link {{ request()->routeIs('student-create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Teacher Profile</p>
+                            </a>
+                        </li>
+
+                        @endif
 
                     </ul>
                 </li>
@@ -207,6 +201,8 @@
 
                 @endif
 
+
+                @if($user->role === App\UserRole::Admin->value && $admin != null || $user->role === App\UserRole::Teacher->value && $teacher !=null )
                 <li class="nav-item {{ request()->routeIs('course-index') || request()->routeIs('course-create') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('course-index') || request()->routeIs('course-create') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -234,6 +230,47 @@
 
                     </ul>
                 </li>
+
+
+
+                
+
+                @else
+
+                @if($student!=null)
+
+                <li class="nav-item {{ request()->routeIs('student-course-index') || request()->routeIs('student-course-enroll') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->routeIs('student-course-index') || request()->routeIs('student-course-enroll') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Courses Section
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{{ route('student-course-index') }}" class="nav-link {{ request()->routeIs('student-course-index') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Provided Courses</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('student-course-enroll') }}" class="nav-link {{ request()->routeIs('student-course-enroll') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Course Enrollment</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+                @endif
+
+                @endif
+                
 
                 <!-- <li class="nav-item">
                     <a href="pages/widgets.html" class="nav-link">

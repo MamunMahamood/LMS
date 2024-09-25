@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'photo',
     ];
 
     /**
@@ -61,4 +62,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Admin::class);
     }
+
+
+
+
+    public function coursePosts()
+{
+    return $this->belongsToMany(Course::class, 'course_user_post')
+                ->withPivot('post')
+                ->withPivot('id')
+                ->withTimestamps();
+}
 }

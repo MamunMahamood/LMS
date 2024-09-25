@@ -32,6 +32,37 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+  <style type="text/css" media="print">
+    body {
+        visibility: visible;
+    }
+    .content-wrapper {
+        display: block !important;
+    }
+
+
+
+    @media print {
+    .sidebar, .navbar, .footer, .control-sidebar {
+        display: none !important;
+    }
+    .content-wrapper {
+        display: block !important;
+        visibility: visible !important;
+    }
+    .wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+
+}
+</style>
+
+
+
+
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -47,6 +78,7 @@
   @include('nav-footer.side-bar')
 
   <!-- Content Wrapper. Contains page content -->
+   
   @yield('content')
   <!-- /.content-wrapper -->
   @include('nav-footer.footer')
