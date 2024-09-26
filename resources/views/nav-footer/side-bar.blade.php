@@ -6,7 +6,7 @@
     </a>
 
     @php
- 
+
 
     $user = Auth::user();
 
@@ -35,7 +35,7 @@
 
 
                 @if ($user->role === App\UserRole::Teacher->value)
-   
+
                 <li class="nav-item {{ request()->routeIs('profile.edit') || request()->routeIs('teacher-profile') || request()->routeIs('teacher.dashboard') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('profile.edit') || request()->routeIs('teacher-profile') || request()->routeIs('teacher.dashboard')? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -185,7 +185,7 @@
                 @else
 
 
-               
+
 
 
 
@@ -233,11 +233,11 @@
 
 
 
-                
+
 
                 @else
 
-                @if($student!=null)
+                @if($user->role === App\UserRole::Student->value && $student!=null)
 
                 <li class="nav-item {{ request()->routeIs('student-course-index') || request()->routeIs('student-course-enroll') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->routeIs('student-course-index') || request()->routeIs('student-course-enroll') ? 'active' : '' }}">
@@ -270,7 +270,7 @@
                 @endif
 
                 @endif
-                
+
 
                 <!-- <li class="nav-item">
                     <a href="pages/widgets.html" class="nav-link">

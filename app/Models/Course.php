@@ -12,6 +12,18 @@ class Course extends Model
     use HasFactory;
     use HasFilterableTrait;
 
+    protected $fillable = [
+        'cphoto',
+        'course_name',
+        'cid',
+        'session',
+        'course_code',
+        'teacher_id',
+        
+    ];
+
+    
+
 
     public function teacher()
     {

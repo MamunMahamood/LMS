@@ -6,6 +6,7 @@ use App\Filters\Filterable\CourseFilterable;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
@@ -241,6 +242,38 @@ class CourseController extends Controller
         $lecture_attendances = $course->students()->where('lecture', $lecture)->get();
 
         return view('course.lecture_attendance_list', compact('course', 'teacher', 'lecture_attendances'));
+
+    }
+
+
+    public function course_create(){
+        do {
+            $course_code = 'CSE' . strtoupper(Str::random(6));
+        } while (Course::where('course_code', $course_code)->exists());
+        
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+        return view('course.create', compact('teacher', 'course_code'));
+    }
+
+
+
+    public function course_store(Request $request){
+
+        $teacher = Teacher::where('user_id', Auth::user()->id)->first();
+
+        Course::create([
+            'course_name'=>$request->course_name,
+            'cid'=>$request->cid,
+            'session'=>$request->session,
+            'course_code'=>$request->course_code,
+            'cphoto'=>'/assets/img/d2.jpeg',
+            'teacher_id'=>$teacher->id,
+
+        ]);
+
+        return redirect()->route('course-index')->with('success', 'Attendance saved successfully.');
+
+
 
     }
 }

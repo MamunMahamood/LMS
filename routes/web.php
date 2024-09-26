@@ -111,6 +111,7 @@ Route::post('/student/dashboard/cec', [StudentController::class, 'student_store'
 
 Route::get('admin/dashboard/courses', [CourseController::class, 'index'])->name('course-index')->middleware('auth');
 Route::get('/admin/dashboard/cc', [CourseController::class, 'course_create'])->name('course-create')->middleware('auth');
+Route::post('/admin/dashboard/cc', [CourseController::class, 'course_store'])->name('course-store')->middleware('auth');
 Route::get('/admin/dashboard/courses/{id}', [CourseController::class, 'course_show'])->name('course-show')->middleware('auth');
 Route::get('/student/dashboard/courses/{id}', [CourseController::class, 'student_course_show'])->name('student-course-show')->middleware('auth');
 Route::get('/student/dashboard/courses/{id}/quizzes', [StudentController::class, 'student_course_quizzes'])->name('student-course-quizzes')->middleware('auth');

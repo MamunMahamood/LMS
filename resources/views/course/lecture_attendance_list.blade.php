@@ -42,8 +42,8 @@
 
 
 
-                    <div>
-                        <table class="table table-responsive">
+                    <div class="table-responsive">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
