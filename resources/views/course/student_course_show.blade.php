@@ -96,7 +96,7 @@
                 <div class="icon">
                 <i class="fa fa-address-book"></i>
               </div>
-                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{route('student-course-assignments', ['id'=>$course->id])}}" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
           </div>

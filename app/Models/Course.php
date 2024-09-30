@@ -73,5 +73,12 @@ public function quizzes()
 
 
 
+public function assignments()
+{
+    return $this->hasMany(Assignment::class);
+}
+
+
+
 
 }

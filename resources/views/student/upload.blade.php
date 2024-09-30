@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('content')
 
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -10,8 +9,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Attendance</h1>
-                            <span><strong>Take Course</strong></span>
+                            <h1 class="m-0">Assignment</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -36,47 +34,62 @@
                         </div><!-- /.col -->
                     </div>
                     <hr> <!-- Horizontal line added below Dashboard and breadcrumb -->
+                </div>
+
+                <section class="content mx-3">
 
 
 
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Upload Assignment</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
 
-                    <div class="row">
-                        <div class="col-sm-10">
-                        <form action="{{route('quiz-create-pre-store')}}" method="POST">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
+                        <form method="POST" action="{{ route('assignment-upload') }}" enctype="multipart/form-data">
                             @csrf
+                            <div class="card-body">
+                                <div class="row">
+                                   
 
-                            <div class="form-group col-6">
-                                    <label for="course_id">Course</label>
-                                    <select class="form-control" id="course_id" name="course_id">
-                                        <option value="">Select a course</option>
-                                        @foreach($courses as $course)
-                                        <option value="{{ $course->cid }}">{{ $course->course_name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="form-group col-6">
+                                        <label for="assignment_file">Assignment File Upload</label>
+                                        <input type="file" class="form-control" id="assignment_file" name="assignment_file" placeholder="Enter File">
+                                    </div>
+
+                                    <input type="" class="form-control" id="student_id" name="student_id" value="{{$student->id}}">
+                                    <input type="" class="form-control" id="assignment_id" name="assignment_id" value="{{$assignment->id}}">
                                 </div>
-                                <div class="form-group col-6">
-                                    <label for="session">Session</label>
-                                    <select class="form-control" id="session" name="session">
-                                        <option value="">Select a session</option>
-                                        @foreach($sessions as $session)
-                                        <option value="{{ $session->session }}">{{ $session->session }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            
+
+                                
+                                
+
+                               
+
+
+
+                            </div>
+                            <!-- /.card-body -->
+
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
-
                         </form>
-                        </div>
-                        <div class="col-sm-2">
-                            <a href="{{route('teacher-quiz-index-pre')}}" class="btn btn-primary">See Previous Quizzes</a>
-                        </div>
                     </div>
-                </div>
+                    <!-- /.container-fluid -->
 
 
+                </section>
 
             </div>
 
@@ -88,9 +101,6 @@
 
     <!-- /.content -->
 </div>
-
-
-
 
 
 @endsection

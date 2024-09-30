@@ -143,6 +143,8 @@ class StudentController extends Controller
 
         $quizzes = $course->quizzes()->get();
 
+        
+
         return view('student.quiz_index', compact('student', 'course', 'quizzes'));
         
     }
@@ -156,7 +158,7 @@ class StudentController extends Controller
 
         $questions = $quiz->questions()->get();
 
-        return view('student.attend_quiz', compact('student', 'questions'));
+        return view('student.attend_quiz', compact('student', 'questions', 'quiz'));
 
     }
 

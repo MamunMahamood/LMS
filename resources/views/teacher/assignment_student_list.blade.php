@@ -38,40 +38,42 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Quiz Title</th>
+                                        <th>Student Name</th>
+                                        <th>Student Id</th>
                                         <th>Course Name</th>
                                         <th>Course Id</th>
+                                        <th>Assignment Title</th>
                                         <th>Session</th>
                                         <th>Date</th>
-                                        <th>Marks</th>
+                                        <!-- <th>Marks</th>
+                                        <th>Marks Obtain</th> -->
+                                        <!-- <th>Checking</th> -->
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+
+
+
                                 <tbody>
-                                    @foreach($quizzes as $quiz)
+                                    @foreach($students as $student)
 
-                                    @php
-                                    // Check if the student has attended the quiz
-                                    $isAttend = $quiz->students()->where('student_id', $student->id)->exists();
-                                    @endphp
+                                   
 
+                                    
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $quiz->title }}</td>
-                                        <td>{{ $quiz->course->course_name }}</td>
-                                        <td>{{ $quiz->course->cid }}</td> <!-- Serial Number -->
-                                        <td>{{ $quiz->course->session }}</td>
-                                        <td>{{ $quiz->created_at->format('F j, Y, g:i a') }}</td>
-                                        <td>{{ $quiz->marks }}</td>
-                                        <td>
-                                            @if ($isAttend)
-                                            <span class="badge badge-danger"><a disabled>
-                                                    Quiz attended
-                                                </a></span>
-                                            @else
-                                            <span class="badge bg-danger"><a href="{{route('attend-quiz', [$quiz->id])}}">View Quiz</a></span>
-                                            @endif
-                                        </td>
+                                        <td>{{ $student->user->name }}</td>
+                                        <td>{{ $student->sid }}</td>
+                                        <td>{{ $course->course_name }}</td>
+                                        <td>{{ $course->cid }}</td> <!-- Serial Number -->
+                                        <td>{{ $assignment->title }}</td>
+                                        <td>{{ $course->session }}</td>
+                                        <td>{{ $student->created_at->format('F j, Y, g:i a') }}</td>
+                                        
+                                        <!-- <td><span class="badge badge-success">Already Checked</span></td> -->
+                                        
+                                        
+                                        <td><span class="badge bg-success"><a href="{{ $student->pivot->assignment_file }}" target="_blank">View File</a></span></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

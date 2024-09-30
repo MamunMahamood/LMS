@@ -92,7 +92,7 @@
                                 <div class="icon">
                                     <i class="fa fa-address-book"></i>
                                 </div>
-                                <a href="#" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
+                                <a href="{{route('teacher-course-set-for-assignment')}}" class="small-box-footer">Enter Here <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

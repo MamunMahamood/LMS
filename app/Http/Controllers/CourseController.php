@@ -96,14 +96,9 @@ class CourseController extends Controller
 
         $student = Student::where('user_id', Auth::user()->id)->first();
 
-        $user_common = $student;
-
-
-
-
         $course = Course::findorfail($id);
 
-        return view('course.student_course_show', compact('course', 'user_common', 'student'));
+        return view('course.student_course_show', compact('course', 'student'));
     }
 
 
@@ -114,7 +109,8 @@ class CourseController extends Controller
     {
 
         $teacher = Teacher::where('user_id', Auth::user()->id)->first();
-        $user_common = $teacher;
+        $courses = Course::where('teacher_id', $teacher->id)->get();
+        $sessions = Course::select('session')->distinct()->get();
 
 
 
@@ -125,7 +121,7 @@ class CourseController extends Controller
 
 
 
-        return view('course.attendance', compact('teacher', 'user_common'));
+        return view('course.attendance', compact('teacher', 'courses', 'sessions'));
     }
 
 
@@ -135,6 +131,8 @@ class CourseController extends Controller
         $course = Course::where('cid', $request->course_id)
             ->where('session', $request->session)
             ->first();
+
+            
         $teacher = Teacher::where('user_id', Auth::user()->id)->first();
         $user_common = $teacher;
 
@@ -211,8 +209,10 @@ class CourseController extends Controller
 
     public function see_attendance(){
         $teacher = Teacher::where('user_id', Auth::user()->id)->first();
-        $user_common = $teacher;
-        return view('course.see_attendance', compact('teacher', 'user_common'));
+        $courses = Course::where('teacher_id', $teacher->id)->get();
+        $sessions = Course::select('session')->distinct()->get();
+        
+        return view('course.see_attendance', compact('teacher', 'courses', 'sessions'));
     }
 
 

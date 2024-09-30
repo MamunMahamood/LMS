@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\AssignmentController;
 use App\Models\Admin;
 use App\Models\Student;
 use App\UserRole;
@@ -121,10 +122,32 @@ Route::get('/teacher/dashboard/quizzes/new/{id}', [QuizController::class, 'quiz_
 Route::get('/teacher/dashboard/quizzes/pre', [QuizController::class, 'quiz_create_pre'])->name('quiz-create-pre')->middleware('auth');
 Route::post('/teacher/dashboard/quizzes/pre', [QuizController::class, 'quiz_create_pre_store'])->name('quiz-create-pre-store')->middleware('auth');
 Route::post('/teacher/dashboard/quizzes/new', [QuizController::class, 'quiz_store'])->name('quiz-store')->middleware('auth');
-Route::get('/teacher/dashboard/quizzes', [QuizController::class, 'quiz_index'])->name('quiz-index')->middleware('auth');
+Route::get('/teacher/dashboard/quizzes/{id}', [QuizController::class, 'teacher_quiz_index'])->name('teacher-quiz-index')->middleware('auth');
+Route::get('/teacher/dashboard/preset/quizzes', [QuizController::class, 'teacher_quiz_index_pre'])->name('teacher-quiz-index-pre')->middleware('auth');
+Route::post('/teacher/dashboard/preset/quizzes', [QuizController::class, 'quiz_index_pre_store'])->name('quiz-index-pre-store')->middleware('auth');
+Route::post('/teacher/dashboard/quizzes/{id}/ans', [QuizController::class, 'student_ans_store'])->name('student-ans-store')->middleware('auth');
+Route::get('/teacher/dashboard/quizzes/show/{course_id}/{id}', [QuizController::class, 'teacher_see_quizzes'])->name('teacher-see-quizzes')->middleware('auth');
+Route::get('/teacher/dashboard/quizzes/quiz/{id}/{student_id}', [QuizController::class, 'teacher_see_quiz_ans'])->name('teacher-see-quiz-ans')->middleware('auth');
+Route::post('/teacher/dashboard/quizzes/quiz/marks/{id}/{student_id}', [QuizController::class, 'student_quiz_ans_marks'])->name('student-quiz-ans-marks')->middleware('auth');
 
 
 
+
+
+Route::get('/teacher/dashboard/assignments/pre', [AssignmentController::class, 'teacher_set_course_for_assignment'])->name('teacher-course-set-for-assignment')->middleware('auth');
+Route::post('/teacher/dashboard/assignments/pre', [AssignmentController::class, 'assignment_create_pre_store'])->name('assignment-create-pre-store')->middleware('auth');
+Route::get('/teacher/dashboard/assignment/new/{id}', [AssignmentController::class, 'assignment_create'])->name('assignment-create')->middleware('auth');
+Route::post('/teacher/dashboard/assignments/new', [AssignmentController::class, 'assignment_store'])->name('assignment-store')->middleware('auth');
+Route::get('/teacher/dashboard/assignments/index/pre', [AssignmentController::class, 'assignment_index_pre'])->name('assignment-index-pre')->middleware('auth');
+Route::post('/teacher/dashboard/assignments/index/pre', [AssignmentController::class, 'assignment_index_pre_store'])->name('assignment-index-pre-store')->middleware('auth');
+Route::get('/teacher/dashboard/assignments/{id}', [AssignmentController::class, 'assignment_index'])->name('assignment-index')->middleware('auth');
+Route::get('/teacher/dashboard/assignments/assignment/{id}', [AssignmentController::class, 'assignment_students'])->name('assignment-students')->middleware('auth');
+Route::post('/teacher/dashboard/assignments/assignment/upload', [AssignmentController::class, 'assignment_upload'])->name('assignment-upload')->middleware('auth');
+
+
+
+Route::get('/student/dashboard/courses/{id}/assignments', [AssignmentController::class, 'student_course_assignments'])->name('student-course-assignments')->middleware('auth');
+Route::get('/student/dashboard/courses/assignments/{id}', [AssignmentController::class, 'student_upload_assignment'])->name('student-upload-assignment')->middleware('auth');
 
 Route::get('search-filter', [CourseController::class, 'filter'])->name('courses.filter');
 
