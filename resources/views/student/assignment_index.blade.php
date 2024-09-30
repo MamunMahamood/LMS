@@ -38,39 +38,46 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Quiz Title</th>
+                                        <th>assignment Title</th>
                                         <th>Course Name</th>
                                         <th>Course Id</th>
                                         <th>Session</th>
                                         <th>Date</th>
-                                        <th>Marks</th>
+                                        
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($quizzes as $quiz)
+                                    @foreach($assignments as $assignment)
 
                                     @php
                                     // Check if the student has attended the quiz
-                                    $isAttend = $quiz->students()->where('student_id', $student->id)->exists();
+                                    $isUploaded = $assignment->students()->where('student_id', $student->id)->exists();
                                     @endphp
 
+                                    
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $quiz->title }}</td>
-                                        <td>{{ $quiz->course->course_name }}</td>
-                                        <td>{{ $quiz->course->cid }}</td> <!-- Serial Number -->
-                                        <td>{{ $quiz->course->session }}</td>
-                                        <td>{{ $quiz->created_at->format('F j, Y, g:i a') }}</td>
-                                        <td>{{ $quiz->marks }}</td>
+                                        <td>{{ $assignment->title }}</td>
+                                        <td>{{ $assignment->course->course_name }}</td>
+                                        <td>{{ $assignment->course->cid }}</td> <!-- Serial Number -->
+                                        <td>{{ $assignment->course->session }}</td>
+                                        <td>{{ $assignment->created_at->format('F j, Y, g:i a') }}</td>
+
+
                                         <td>
-                                            @if ($isAttend)
+                                        @if ($isUploaded)
                                             <span class="badge badge-danger"><a disabled>
-                                                    Quiz attended
+                                                    Assignment Uploaded
                                                 </a></span>
                                             @else
-                                            <span class="badge bg-danger"><a href="{{route('attend-quiz', [$quiz->id])}}">View Quiz</a></span>
+                                            <span class="badge bg-warning"><a href="{{route('student-upload-assignment', ['id'=> $assignment->id])}}">Upload Assignment</a></span>
                                             @endif
+                                        
+                                        
+                                            
+                                            
+                                            
                                         </td>
                                     </tr>
                                     @endforeach

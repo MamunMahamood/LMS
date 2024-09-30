@@ -23,6 +23,7 @@ class Quiz extends Model
     {
         return $this->belongsToMany(Student::class)
             ->withPivot('id')
+            ->withPivot('marks_obtain')
             ->withTimestamps();
     }
 
@@ -45,6 +46,16 @@ public function answers()
 {
     return $this->hasMany(Answer::class);
 }
+
+
+
+public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class)
+                ->withPivot('id')
+                ->withPivot('student_id')
+                ->withTimestamps();
+    }
 
 
 

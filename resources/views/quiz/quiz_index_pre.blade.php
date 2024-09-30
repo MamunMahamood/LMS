@@ -42,10 +42,9 @@
 
                     <div class="row">
                         <div class="col-sm-10">
-                            <form action="{{route('course-attendance-create')}}" method="POST">
-                                @csrf
-
-                                <div class="form-group col-6">
+                        <form action="{{route('quiz-index-pre-store')}}" method="POST">
+                            @csrf
+                            <div class="form-group col-6">
                                     <label for="course_id">Course</label>
                                     <select class="form-control" id="course_id" name="course_id">
                                         <option value="">Select a course</option>
@@ -63,19 +62,15 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
 
-                                <div class="form-group col-6">
-                                    <label for="designation">Lecture Number</label>
-                                    <input type="text" class="form-control" id="lecture" name="lecture" placeholder="Enter Lecture">
-                                </div>
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-
-                            </form>
+                        </form>
                         </div>
                         <div class="col-sm-2">
-                            <a href="{{route('teacher-see-attendance')}}" class="btn btn-primary">See Previous Attendances</a>
+                            <a href="{{route('teacher-quiz-index-pre')}}" class="btn btn-primary">See Previous Quizzes</a>
                         </div>
                     </div>
                 </div>

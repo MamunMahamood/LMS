@@ -25,7 +25,7 @@ class Student extends Model
         'mobile_number',
         'user_id',
     ];
-    
+
 
 
 
@@ -36,34 +36,43 @@ class Student extends Model
 
 
     public function courses()
-{
-    return $this->belongsToMany(Course::class)
-                ->withPivot('attendance')
-                ->withPivot('lecture')
-                ->withPivot('id')
-                ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Course::class)
+            ->withPivot('attendance')
+            ->withPivot('lecture')
+            ->withPivot('id')
+            ->withTimestamps();
+    }
 
 
-public function studentCourses()
-{
-    return $this->belongsToMany(Course::class, 'course_user_enrollment')
-                ->withPivot('id')
-                ->withTimestamps();
-}
+    public function studentCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_user_enrollment')
+            ->withPivot('id')
+            ->withTimestamps();
+    }
 
 
-public function quizzes()
-{
-    return $this->belongsToMany(Quiz::class)
-                ->withPivot('id')
-                ->withTimestamps();
-}
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class)
+            ->withPivot('id')
+            ->withPivot('marks_obtain')
+            ->withTimestamps();
+    }
 
 
 
-public function answers()
-{
-    return $this->hasMany(Answer::class);
-}
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
+    public function assignments()
+    {
+        return $this->belongsToMany(Assignment::class)
+            ->withPivot('assignment_id')
+            ->withPivot('assignment_file')
+            ->withTimestamps();
+    }
 }

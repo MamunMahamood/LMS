@@ -38,40 +38,51 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Quiz Title</th>
+                                        <th>student Title</th>
                                         <th>Course Name</th>
                                         <th>Course Id</th>
                                         <th>Session</th>
                                         <th>Date</th>
                                         <th>Marks</th>
+                                        <th>Marks Obtain</th>
+                                        <th>Checking</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+
+
+
                                 <tbody>
-                                    @foreach($quizzes as $quiz)
+                                    @foreach($students as $student)
 
                                     @php
-                                    // Check if the student has attended the quiz
-                                    $isAttend = $quiz->students()->where('student_id', $student->id)->exists();
-                                    @endphp
 
+                                    $quiz_for_student = $quiz->students()->where('student_id', $student->id)->first();
+                                    
+                                    if($quiz_checked){
+                                        $quiz_checked_for_student = $quiz_checked->pivot->where('student_id', $student->id)->first();
+                                    }
+                                    else $quiz_checked_for_student = null;
+                                    
+                                    @endphp
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $quiz->title }}</td>
-                                        <td>{{ $quiz->course->course_name }}</td>
-                                        <td>{{ $quiz->course->cid }}</td> <!-- Serial Number -->
-                                        <td>{{ $quiz->course->session }}</td>
-                                        <td>{{ $quiz->created_at->format('F j, Y, g:i a') }}</td>
+                                        <td>{{ $student->user->name }}</td>
+                                        <td>{{ $course->course_name }}</td>
+                                        <td>{{ $course->cid }}</td> <!-- Serial Number -->
+                                        <td>{{ $course->session }}</td>
+                                        <td>{{ $student->created_at->format('F j, Y, g:i a') }}</td>
                                         <td>{{ $quiz->marks }}</td>
-                                        <td>
-                                            @if ($isAttend)
-                                            <span class="badge badge-danger"><a disabled>
-                                                    Quiz attended
-                                                </a></span>
-                                            @else
-                                            <span class="badge bg-danger"><a href="{{route('attend-quiz', [$quiz->id])}}">View Quiz</a></span>
-                                            @endif
-                                        </td>
+                                        <td>{{ $quiz_for_student->pivot->marks_obtain }}</td>
+                                        
+                                        @if($quiz_checked_for_student)
+                                        <td><span class="badge badge-success">Already Checked</span></td>
+                                        @else
+                                        <td><span class="badge badge-warning">Not Yet Check</span></td>
+                                        @endif
+                                       
+                                        
+                                        <td><span class="badge bg-primary"><a href="{{route('teacher-see-quiz-ans',['id'=>$quiz->id, 'student_id'=>$student->id])}}">View student</a></span></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

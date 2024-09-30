@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('content')
 
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -10,8 +9,7 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Attendance</h1>
-                            <span><strong>Take Course</strong></span>
+                            <h1 class="m-0">Dashboard</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -20,9 +18,7 @@
                                         {{ Auth::user()->name }}
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right">
-
                                         <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
-
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             Log Out
                                         </a>
@@ -31,55 +27,46 @@
                                         </form>
                                     </div>
                                 </div>
-
                             </ol>
                         </div><!-- /.col -->
                     </div>
                     <hr> <!-- Horizontal line added below Dashboard and breadcrumb -->
 
-
-
-
                     <div class="row">
-                        <div class="col-sm-10">
-                        <form action="{{route('quiz-create-pre-store')}}" method="POST">
-                            @csrf
+                        <div class="col-12 table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>assignment Title</th>
+                                    <th>Course Name</th>
+                                    <th>Course Id</th>
+                                    <th>Session</th>
+                                    <th>Date</th>
+                                    <th>Description File</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($assignments as $assignment)
+                                <tr>
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $assignment->title }}</td>
+                                    <td>{{ $assignment->course->course_name }}</td>
+                                    <td>{{ $assignment->course->cid }}</td> <!-- Serial Number -->
+                                    <td>{{ $assignment->course->session }}</td>
+                                    <td>{{ $assignment->created_at->format('F j, Y, g:i a') }}</td>
+                                    <td><span class="badge bg-success"><a href="{{ $assignment->assignment_file }}" target="_blank">View File</a></span></td>
+                                    <td><span class="badge bg-primary"><a href="{{route('assignment-students', ['id'=>$assignment->id])}}">View Students</a></span></td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
 
-                            <div class="form-group col-6">
-                                    <label for="course_id">Course</label>
-                                    <select class="form-control" id="course_id" name="course_id">
-                                        <option value="">Select a course</option>
-                                        @foreach($courses as $course)
-                                        <option value="{{ $course->cid }}">{{ $course->course_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-6">
-                                    <label for="session">Session</label>
-                                    <select class="form-control" id="session" name="session">
-                                        <option value="">Select a session</option>
-                                        @foreach($sessions as $session)
-                                        <option value="{{ $session->session }}">{{ $session->session }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-
-                        </form>
-                        </div>
-                        <div class="col-sm-2">
-                            <a href="{{route('teacher-quiz-index-pre')}}" class="btn btn-primary">See Previous Quizzes</a>
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
             <!-- /.row -->
         </div>
     </div>
@@ -88,9 +75,5 @@
 
     <!-- /.content -->
 </div>
-
-
-
-
 
 @endsection

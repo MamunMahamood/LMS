@@ -16,7 +16,7 @@
                             <h3 class="card-title">Quiz Questions</h3>
                         </div>
 
-                        <form method="POST" action="">
+                        <form method="POST" action="{{route('student-ans-store', ['id'=>$quiz->id])}}">
                             @csrf
                             <div class="card-body">
 

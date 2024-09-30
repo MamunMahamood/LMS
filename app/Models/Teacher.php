@@ -36,4 +36,14 @@ class Teacher extends Model
     {
         return $this->hasMany(Course::class);
     }
+
+
+    
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class)
+                ->withPivot('id')
+                ->withPivot('student_id')
+                ->withTimestamps();
+    }
 }

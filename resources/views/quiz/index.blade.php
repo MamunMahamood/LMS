@@ -57,7 +57,7 @@
                                     <td>{{ $quiz->course->session }}</td>
                                     <td>{{ $quiz->created_at->format('F j, Y, g:i a') }}</td>
                                     <td>{{ $quiz->marks }}</td>
-                                    <td><span class="badge bg-danger"><a href="">View Quiz</a></span></td>
+                                    <td><span class="badge bg-danger"><a href="{{route('teacher-see-quizzes',['course_id'=>$course->id,'id'=>$quiz->id])}}">View Quiz</a></span></td>
                                 </tr>
                                 @endforeach
                             </tbody>

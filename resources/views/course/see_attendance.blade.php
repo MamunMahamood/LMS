@@ -42,22 +42,32 @@
 
                     <div class="row">
                         <div class="col-sm-10">
-                        <form action="{{route('see-attendance-create')}}" method="POST">
-                            @csrf
+                            <form action="{{route('see-attendance-create')}}" method="POST">
+                                @csrf
 
-                            <div class="form-group col-6">
-                                <label for="designation">Course Id</label>
-                                <input type="text" class="form-control" id="course_id" name="course_id" placeholder="Enter Course Id">
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="designation">Session</label>
-                                <input type="text" class="form-control" id="session" name="session" placeholder="Enter Session">
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                                <div class="form-group col-6">
+                                    <label for="course_id">Course</label>
+                                    <select class="form-control" id="course_id" name="course_id">
+                                        <option value="">Select a course</option>
+                                        @foreach($courses as $course)
+                                        <option value="{{ $course->cid }}">{{ $course->course_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="session">Session</label>
+                                    <select class="form-control" id="session" name="session">
+                                        <option value="">Select a session</option>
+                                        @foreach($sessions as $session)
+                                        <option value="{{ $session->session }}">{{ $session->session }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
 
-                        </form>
+                            </form>
                         </div>
                         <div class="col-sm-2">
                             <a href="{{route('teacher-see-attendance')}}" class="btn btn-primary">See Previous Attendances</a>
